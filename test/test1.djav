@@ -1,0 +1,25 @@
+class Foo {
+
+	void program() {
+		int i, j, k, z;
+		i = 57;
+		j = 333;
+		z = i+ 2 +49;
+		k = myAdd(i, j);
+		println(k);
+	
+		if(true){
+			k = 777;
+		}
+		else if(true && false)
+		{
+		}
+		else{
+			k = 666;
+		}
+	}
+
+	int myAdd(int x, int y) {
+		return x + y;
+	}
+}

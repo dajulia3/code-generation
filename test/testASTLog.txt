@@ -1,0 +1,1174 @@
++++++++++++++++++++++++++++++AST'S FOR COMPILER TEST++++++++++++++++++++++++++++++
+==========================Wed May 02 16:25:52 CDT 2012============================
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**********************************************************************************
+visitAssignNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+
+**********************************************************************************
+visitAdditionNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                ADDITION
+                                    VAR_USE
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                    VAR_USE
+                                        IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                ADDITION
+                                    ADDITION
+                                        ADDITION
+                                            VAR_USE
+                                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                            VAR_USE
+                                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                        INTEGER_LITERAL (111)
+                                    VAR_USE
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+
+**********************************************************************************
+visitIfStatementNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_LITERAL (false)
+                            BLOCK
+                                LOCAL_VAR_DECLARATION
+                                    INT_TYPE
+                                    VARIABLE_DECLARATIONS
+                                        VARIABLE_DECLARATION
+                                            IDENTIFIER (k) (SymbolInfo: INT, lv = 0)
+                                            INTEGER_LITERAL (777)
+                            IF_STATEMENT
+                                BOOLEAN_LITERAL (true)
+                                BLOCK
+                                BLOCK
+
+**********************************************************************************
+visitBooleanLiteralNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_LITERAL (false)
+                            BLOCK
+                                IF_STATEMENT
+                                    BOOLEAN_LITERAL (true)
+                                    BLOCK
+                            IF_STATEMENT
+                                BOOLEAN_LITERAL (false)
+                                BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_LITERAL (true)
+                            BLOCK
+
+**********************************************************************************
+visitBooleanAndNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_AND
+                                BOOLEAN_AND
+                                    BOOLEAN_LITERAL (true)
+                                    BOOLEAN_LITERAL (false)
+                                BOOLEAN_LITERAL (true)
+                            BLOCK
+                            IF_STATEMENT
+                                BOOLEAN_AND
+                                    BOOLEAN_LITERAL (false)
+                                    BOOLEAN_LITERAL (false)
+                                BLOCK
+                                IF_STATEMENT
+                                    BOOLEAN_AND
+                                        BOOLEAN_AND
+                                            BOOLEAN_LITERAL (true)
+                                            BOOLEAN_LITERAL (true)
+                                        BOOLEAN_LITERAL (true)
+                                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_AND
+                                BOOLEAN_LITERAL (true)
+                                BOOLEAN_LITERAL (true)
+                            BLOCK
+
+**********************************************************************************
+visitBooleanNotNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_AND
+                                BOOLEAN_LITERAL (true)
+                                BOOLEAN_NOT
+                                    BOOLEAN_AND
+                                        BOOLEAN_LITERAL (false)
+                                        BOOLEAN_NOT
+                                            BOOLEAN_LITERAL (true)
+                            BLOCK
+                            IF_STATEMENT
+                                BOOLEAN_AND
+                                    BOOLEAN_NOT
+                                        BOOLEAN_LITERAL (false)
+                                    BOOLEAN_NOT
+                                        BOOLEAN_LITERAL (false)
+                                BLOCK
+                                IF_STATEMENT
+                                    BOOLEAN_AND
+                                        BOOLEAN_AND
+                                            BOOLEAN_NOT
+                                                BOOLEAN_LITERAL (true)
+                                            BOOLEAN_NOT
+                                                BOOLEAN_LITERAL (true)
+                                        BOOLEAN_NOT
+                                            BOOLEAN_LITERAL (true)
+                                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_NOT
+                                BOOLEAN_AND
+                                    BOOLEAN_LITERAL (true)
+                                    BOOLEAN_LITERAL (true)
+                            BLOCK
+
+**********************************************************************************
+visitBooleanOrNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_OR
+                                BOOLEAN_LITERAL (true)
+                                BOOLEAN_OR
+                                    BOOLEAN_LITERAL (false)
+                                    BOOLEAN_LITERAL (true)
+                            BLOCK
+                            IF_STATEMENT
+                                BOOLEAN_OR
+                                    BOOLEAN_LITERAL (false)
+                                    BOOLEAN_LITERAL (false)
+                                BLOCK
+                                IF_STATEMENT
+                                    BOOLEAN_OR
+                                        BOOLEAN_OR
+                                            BOOLEAN_LITERAL (true)
+                                            BOOLEAN_LITERAL (true)
+                                        BOOLEAN_LITERAL (true)
+                                    BLOCK
+                        IF_STATEMENT
+                            BOOLEAN_OR
+                                BOOLEAN_OR
+                                    BOOLEAN_OR
+                                        BOOLEAN_OR
+                                            BOOLEAN_OR
+                                                BOOLEAN_LITERAL (false)
+                                                BOOLEAN_LITERAL (true)
+                                            BOOLEAN_LITERAL (false)
+                                        BOOLEAN_LITERAL (true)
+                                    BOOLEAN_LITERAL (true)
+                                BOOLEAN_LITERAL (false)
+                            BLOCK
+
+**********************************************************************************
+visitDivisionNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                DIVISION
+                                    VAR_USE
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                    VAR_USE
+                                        IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+
+**********************************************************************************
+visitEqualNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        IF_STATEMENT
+                            EQUAL
+                                INTEGER_LITERAL (6)
+                                INTEGER_LITERAL (6)
+                            BLOCK
+                                LOCAL_VAR_DECLARATION
+                                    INT_TYPE
+                                    VARIABLE_DECLARATIONS
+                                        VARIABLE_DECLARATION
+                                            IDENTIFIER (testIfGetHere) (SymbolInfo: INT, lv = 0)
+                                EXPRESSION_STATEMENT
+                                    ASSIGN
+                                        IDENTIFIER (testIfGetHere) (SymbolInfo: INT, lv = 0)
+                                        INTEGER_LITERAL (99999)
+                        IF_STATEMENT
+                            EQUAL
+                                INTEGER_LITERAL (6)
+                                INTEGER_LITERAL (6)
+                            BLOCK
+                        IF_STATEMENT
+                            EQUAL
+                                INTEGER_LITERAL (10)
+                                INTEGER_LITERAL (34)
+                            BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 2)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (6789)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 2)
+                                INTEGER_LITERAL (12345)
+                        IF_STATEMENT
+                            EQUAL
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 1)
+                                VAR_USE
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 2)
+                            BLOCK
+                        IF_STATEMENT
+                            EQUAL
+                                BOOLEAN_LITERAL (true)
+                                BOOLEAN_LITERAL (false)
+                            BLOCK
+                        IF_STATEMENT
+                            EQUAL
+                                INTEGER_LITERAL (1)
+                                BOOLEAN_LITERAL (true)
+                            BLOCK
+                        IF_STATEMENT
+                            EQUAL
+                                INTEGER_LITERAL (0)
+                                BOOLEAN_LITERAL (false)
+                            BLOCK
+                        IF_STATEMENT
+                            EQUAL
+                                BOOLEAN_LITERAL (true)
+                                BOOLEAN_LITERAL (true)
+                            BLOCK
+                        IF_STATEMENT
+                            EQUAL
+                                EQUAL
+                                    BOOLEAN_LITERAL (true)
+                                    BOOLEAN_LITERAL (true)
+                                BOOLEAN_LITERAL (false)
+                            BLOCK
+
+**********************************************************************************
+visitGreaterThanNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (999)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (2)
+                        IF_STATEMENT
+                            GREATER_THAN
+                                INTEGER_LITERAL (4)
+                                INTEGER_LITERAL (7)
+                            BLOCK
+                        IF_STATEMENT
+                            GREATER_THAN
+                                INTEGER_LITERAL (1)
+                                INTEGER_LITERAL (9999)
+                            BLOCK
+                        IF_STATEMENT
+                            GREATER_THAN
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                            BLOCK
+
+**********************************************************************************
+visitGreaterThanOrEqualNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (999)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (2)
+                        IF_STATEMENT
+                            GREATER_THAN_OR_EQUAL
+                                INTEGER_LITERAL (4)
+                                INTEGER_LITERAL (7)
+                            BLOCK
+                        IF_STATEMENT
+                            GREATER_THAN_OR_EQUAL
+                                INTEGER_LITERAL (1)
+                                INTEGER_LITERAL (1)
+                            BLOCK
+                        IF_STATEMENT
+                            GREATER_THAN_OR_EQUAL
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                            BLOCK
+
+**********************************************************************************
+visitIntegerLiteralNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (999)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (2)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                INTEGER_LITERAL (0)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                INTEGER_LITERAL (92834)
+
+**********************************************************************************
+visitLessThanNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (999)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (2)
+                        IF_STATEMENT
+                            LESS_THAN
+                                INTEGER_LITERAL (4)
+                                INTEGER_LITERAL (7)
+                            BLOCK
+                        IF_STATEMENT
+                            LESS_THAN
+                                INTEGER_LITERAL (9999)
+                                INTEGER_LITERAL (12)
+                            BLOCK
+                        IF_STATEMENT
+                            LESS_THAN
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                            BLOCK
+
+**********************************************************************************
+visitLessThanOrEqualNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (8)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (999)
+                        IF_STATEMENT
+                            LESS_THAN_OR_EQUAL
+                                INTEGER_LITERAL (4)
+                                INTEGER_LITERAL (7)
+                            BLOCK
+                        IF_STATEMENT
+                            LESS_THAN_OR_EQUAL
+                                INTEGER_LITERAL (1)
+                                INTEGER_LITERAL (1)
+                            BLOCK
+                        IF_STATEMENT
+                            LESS_THAN_OR_EQUAL
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                            BLOCK
+
+**********************************************************************************
+visitMultiplicationNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                MULTIPLICATION
+                                    INTEGER_LITERAL (10)
+                                    ADDITION
+                                        INTEGER_LITERAL (1)
+                                        INTEGER_LITERAL (2)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                MULTIPLICATION
+                                    VAR_USE
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                    VAR_USE
+                                        IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                MULTIPLICATION
+                                    MULTIPLICATION
+                                        MULTIPLICATION
+                                            VAR_USE
+                                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                            VAR_USE
+                                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                        INTEGER_LITERAL (111)
+                                    VAR_USE
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+
+**********************************************************************************
+visitNotEqualNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        IF_STATEMENT
+                            NOT_EQUAL
+                                INTEGER_LITERAL (10)
+                                INTEGER_LITERAL (34)
+                            BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (7)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (7)
+                        IF_STATEMENT
+                            NOT_EQUAL
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                            BLOCK
+                        IF_STATEMENT
+                            NOT_EQUAL
+                                BOOLEAN_LITERAL (true)
+                                BOOLEAN_LITERAL (false)
+                            BLOCK
+                        IF_STATEMENT
+                            NOT_EQUAL
+                                INTEGER_LITERAL (1)
+                                BOOLEAN_LITERAL (true)
+                            BLOCK
+                        IF_STATEMENT
+                            NOT_EQUAL
+                                INTEGER_LITERAL (0)
+                                BOOLEAN_LITERAL (false)
+                            BLOCK
+
+**********************************************************************************
+visitReturnStatementNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                METHOD_DECLARATION
+                    IDENTIFIER (myAdd)
+                    PARAMETERS
+                        PARAMETER
+                            VARIABLE_DECLARATION
+                                IDENTIFIER (x) (SymbolInfo: INT, lv = 0)
+                            INT_TYPE
+                        PARAMETER
+                            VARIABLE_DECLARATION
+                                IDENTIFIER (y) (SymbolInfo: INT, lv = 1)
+                            INT_TYPE
+                    INT_TYPE
+                    BLOCK
+                        RETURN_STATEMENT
+                            ADDITION
+                                VAR_USE
+                                    IDENTIFIER (x) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (y) (SymbolInfo: INT, lv = 1)
+                METHOD_DECLARATION
+                    IDENTIFIER (myTestIntReturn)
+                    PARAMETERS
+                    INT_TYPE
+                    BLOCK
+                        RETURN_STATEMENT
+                            INTEGER_LITERAL (4)
+                METHOD_DECLARATION
+                    IDENTIFIER (myTestBoolReturn)
+                    PARAMETERS
+                    INT_TYPE
+                    BLOCK
+                        RETURN_STATEMENT
+                            BOOLEAN_LITERAL (true)
+                METHOD_DECLARATION
+                    IDENTIFIER (myTestVoidReturn)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        RETURN_STATEMENT
+                METHOD_DECLARATION
+                    IDENTIFIER (myTestVoidMissingReturn)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+
+**********************************************************************************
+visitSubtractionNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                SUBTRACTION
+                                    VAR_USE
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                    VAR_USE
+                                        IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                SUBTRACTION
+                                    SUBTRACTION
+                                        SUBTRACTION
+                                            VAR_USE
+                                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                            VAR_USE
+                                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                        INTEGER_LITERAL (111)
+                                    VAR_USE
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+
+**********************************************************************************
+visitUnaryMinusNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                UNARY_MINUS
+                                    INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                UNARY_MINUS
+                                    INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                UNARY_MINUS
+                                    ADDITION
+                                        VAR_USE
+                                            IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                        VAR_USE
+                                            IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                INTEGER_LITERAL (4)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                UNARY_MINUS
+                                    INTEGER_LITERAL (4)
+
+**********************************************************************************
+visitUnaryPlusNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                UNARY_PLUS
+                                    INTEGER_LITERAL (999)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                UNARY_PLUS
+                                    INTEGER_LITERAL (10)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                UNARY_PLUS
+                                    ADDITION
+                                        VAR_USE
+                                            IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                        VAR_USE
+                                            IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                UNARY_PLUS
+                                    INTEGER_LITERAL (4)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                UNARY_PLUS
+                                    INTEGER_LITERAL (4)
+
+**********************************************************************************
+visitWhileStatementNode
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (0)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (5)
+                        WHILE_STATEMENT
+                            LESS_THAN
+                                VAR_USE
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                            BLOCK
+                                EXPRESSION_STATEMENT
+                                    ASSIGN
+                                        IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                        ADDITION
+                                            VAR_USE
+                                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                            INTEGER_LITERAL (1)
+
+**********************************************************************************
+testMethodAccess
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 0)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 0)
+                                METHOD_ACCESS
+                                    IDENTIFIER (myAdd)
+                                    ARGUMENTS
+                                        INTEGER_LITERAL (1)
+                                        VAR_USE
+                                            IDENTIFIER (k) (SymbolInfo: INT, lv = 0)
+                METHOD_DECLARATION
+                    IDENTIFIER (myAdd)
+                    PARAMETERS
+                        PARAMETER
+                            VARIABLE_DECLARATION
+                                IDENTIFIER (x) (SymbolInfo: INT, lv = 0)
+                            INT_TYPE
+                        PARAMETER
+                            VARIABLE_DECLARATION
+                                IDENTIFIER (y) (SymbolInfo: INT, lv = 1)
+                            INT_TYPE
+                    INT_TYPE
+                    BLOCK
+                        RETURN_STATEMENT
+                            ADDITION
+                                VAR_USE
+                                    IDENTIFIER (x) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (y) (SymbolInfo: INT, lv = 1)
+
+**********************************************************************************
+testOverallCompilerOutput
+--------------------------------------------------------------------------------
+
+COMPILATION_UNIT
+    DECLARATIONS
+        CLASS
+            IDENTIFIER (Foo)
+            CLASS_BODY
+                METHOD_DECLARATION
+                    IDENTIFIER (program)
+                    PARAMETERS
+                    VOID
+                    BLOCK
+                        LOCAL_VAR_DECLARATION
+                            INT_TYPE
+                            VARIABLE_DECLARATIONS
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                VARIABLE_DECLARATION
+                                    IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                INTEGER_LITERAL (57)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                                INTEGER_LITERAL (333)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (z) (SymbolInfo: INT, lv = 3)
+                                ADDITION
+                                    ADDITION
+                                        VAR_USE
+                                            IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                        INTEGER_LITERAL (2)
+                                    INTEGER_LITERAL (49)
+                        EXPRESSION_STATEMENT
+                            ASSIGN
+                                IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                METHOD_ACCESS
+                                    IDENTIFIER (myAdd)
+                                    ARGUMENTS
+                                        VAR_USE
+                                            IDENTIFIER (i) (SymbolInfo: INT, lv = 0)
+                                        VAR_USE
+                                            IDENTIFIER (j) (SymbolInfo: INT, lv = 1)
+                        EXPRESSION_STATEMENT
+                            METHOD_ACCESS
+                                IDENTIFIER (println)
+                                ARGUMENTS
+                                    VAR_USE
+                                        IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                        IF_STATEMENT
+                            BOOLEAN_LITERAL (true)
+                            BLOCK
+                                EXPRESSION_STATEMENT
+                                    ASSIGN
+                                        IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                        INTEGER_LITERAL (777)
+                            IF_STATEMENT
+                                BOOLEAN_AND
+                                    BOOLEAN_LITERAL (true)
+                                    BOOLEAN_LITERAL (false)
+                                BLOCK
+                                BLOCK
+                                    EXPRESSION_STATEMENT
+                                        ASSIGN
+                                            IDENTIFIER (k) (SymbolInfo: INT, lv = 2)
+                                            INTEGER_LITERAL (666)
+                METHOD_DECLARATION
+                    IDENTIFIER (myAdd)
+                    PARAMETERS
+                        PARAMETER
+                            VARIABLE_DECLARATION
+                                IDENTIFIER (x) (SymbolInfo: INT, lv = 0)
+                            INT_TYPE
+                        PARAMETER
+                            VARIABLE_DECLARATION
+                                IDENTIFIER (y) (SymbolInfo: INT, lv = 1)
+                            INT_TYPE
+                    INT_TYPE
+                    BLOCK
+                        RETURN_STATEMENT
+                            ADDITION
+                                VAR_USE
+                                    IDENTIFIER (x) (SymbolInfo: INT, lv = 0)
+                                VAR_USE
+                                    IDENTIFIER (y) (SymbolInfo: INT, lv = 1)
+

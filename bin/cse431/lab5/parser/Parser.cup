@@ -1,0 +1,713 @@
+package cse431.lab5.parser;
+
+import java.util.ArrayList;
+import java_cup.runtime.*;
+import cse431.lab5.ast.*;
+
+
+parser code {:
+    protected CompilationUnit root;
+
+    void setRoot(CompilationUnit cu) { this.root = cu; }
+
+    public CompilationUnit getRoot() { return this.root; }
+:};
+
+
+   terminal         BOOLEAN, INT, CHAR, DOUBLE;
+   terminal         LBRACE, RBRACE, LPAREN, RPAREN;
+   terminal         COMMA, SEMICOLON;
+   terminal         CLASS;
+   terminal         VOID, NULL;
+   terminal         IF, ELSE, WHILE;
+   terminal         RETURN;
+   terminal         OP_INC, OP_DEC, PLUSOP, MINUSOP, SLASH, ASTERISK;
+   terminal         BANG;
+   terminal         OP_LT, OP_GT, OP_LE, OP_GE, OP_EQ, OP_NE, OP_AND, OP_OR;
+   terminal         EQUALS;
+   terminal         TRUE, FALSE;
+   terminal String  IDENTIFIER;
+   terminal Integer INT_LIT;
+   terminal String  STRING_LIT;
+   terminal Double  FLOAT_LIT;
+   terminal Character CHAR_LIT;
+
+nonterminal ASTNode BooleanLiteral;
+nonterminal ASTNode Identifier;
+nonterminal ASTNode Literal;
+nonterminal ASTNode Type, PrimitiveType, NumericType;
+nonterminal ASTNode IntegralType, FloatingPointType;
+nonterminal ASTNode CompilationUnit;
+nonterminal ASTNode TypeDeclarations;
+nonterminal ASTNode TypeDeclaration;
+nonterminal ASTNode ClassBody, ClassBodyDeclarations, ClassBodyDeclaration;
+nonterminal ASTNode FieldDeclaration;
+nonterminal ASTNode VariableDeclarators, VariableDeclarator;
+nonterminal ASTNode VariableDeclaratorId;
+nonterminal ASTNode MethodDeclaration, MethodHeader, MethodDeclarator;
+nonterminal ASTNode FormalParameterList, FormalParameter;
+nonterminal ASTNode MethodBody;
+nonterminal ASTNode Block, BlockStatements, BlockStatement;
+nonterminal ASTNode LocalVariableDeclarationStatement;
+nonterminal ASTNode LocalVariableDeclaration;
+nonterminal ASTNode Statement, StatementNoShortIf;
+nonterminal ASTNode StatementWithoutTrailingSubstatement;
+nonterminal ASTNode EmptyStatement;
+nonterminal ASTNode ExpressionStatement, StatementExpression;
+nonterminal ASTNode IfThenStatement, IfThenElseStatement;
+nonterminal ASTNode IfThenElseStatementNoShortIf;
+nonterminal ASTNode WhileStatement, WhileStatementNoShortIf;
+nonterminal ASTNode ReturnStatement;
+nonterminal ASTNode Primary;
+nonterminal ASTNode ArgumentList;
+nonterminal ASTNode MethodInvocation;
+nonterminal ASTNode PostfixExpression;
+nonterminal ASTNode PostIncrementExpression, PostDecrementExpression;
+nonterminal ASTNode UnaryExpression, PreIncrementExpression;
+nonterminal ASTNode PreDecrementExpression;
+nonterminal ASTNode UnaryExpressionNotPlusMinus, CastExpression;
+nonterminal ASTNode MultiplicativeExpression, AdditiveExpression;
+nonterminal ASTNode RelationalExpression, EqualityExpression;
+nonterminal ASTNode ConditionalAndExpression, ConditionalOrExpression;
+nonterminal ASTNode AssignmentExpression, Assignment;
+nonterminal ASTNode AssignmentOperator, Expression;
+
+
+start with CompilationUnit;
+
+
+Identifier
+	::= IDENTIFIER:i
+	   {: RESULT = new IdentifierNode(i); :}
+	;
+
+Literal
+	::= INT_LIT:i
+	   {: RESULT = new IntegerLiteralNode(i); :}
+	|   FLOAT_LIT:f
+	   {: RESULT = new FloatLiteralNode(f); :}
+	|   BooleanLiteral:b
+	   {: RESULT = b; :}
+	|   CHAR_LIT:c
+	   {: RESULT = new CharLiteralNode(c); :}
+	|   STRING_LIT:s
+	   {: RESULT = new StringLiteralNode(s); :}
+	|   NULL
+	   {: RESULT = new BaseASTNode(NodeType.NULL_LITERAL); :}
+	;
+
+BooleanLiteral
+	::= TRUE
+       {: RESULT = new BooleanLiteralNode(true); :}
+	|   FALSE
+       {: RESULT = new BooleanLiteralNode(false); :}
+	;
+
+Type
+	::= PrimitiveType:t
+       {: RESULT = t; :}
+	|   Identifier:t
+       {: RESULT = t; :}
+	;
+
+PrimitiveType
+	::= NumericType:t
+       {: RESULT = t; :}
+	|   BOOLEAN
+       {: RESULT = new TypeNode(NodeType.BOOLEAN_TYPE, PrimitiveType.BOOLEAN); :}
+	;
+
+NumericType
+	::= IntegralType:t
+       {: RESULT = t; :}
+	|   FloatingPointType:t
+       {: RESULT = t; :}
+	;
+
+IntegralType
+	::= INT
+       {: RESULT = new TypeNode(NodeType.INT_TYPE, PrimitiveType.INT); :}
+	|   CHAR
+       {: RESULT = new TypeNode(NodeType.CHAR_TYPE, PrimitiveType.CHAR); :}
+	;
+
+FloatingPointType
+	::= DOUBLE
+       {: RESULT = new TypeNode(NodeType.DOUBLE_TYPE, PrimitiveType.DOUBLE); :}
+	;
+
+CompilationUnit
+	::= TypeDeclarations:t
+       {:
+         CompilationUnit cu = new CompilationUnit();
+         cu.addChild(t);
+       	 parser.setRoot(cu);
+       :}
+	;
+
+TypeDeclarations
+	::= TypeDeclaration:t
+       {:
+         RESULT = new BaseASTNode(NodeType.DECLARATIONS);
+         RESULT.addChild(t);
+       :}
+	|   TypeDeclarations:ds TypeDeclaration:t
+       {:
+         RESULT = ds;
+         RESULT.addChild(t);
+       :}
+	;
+
+TypeDeclaration
+	::= CLASS Identifier:id ClassBody:b
+       {:
+         RESULT = new ClassNode();
+         RESULT.addChild(id);
+         RESULT.addChild(b);
+       :}
+	;
+
+ClassBody
+	::= LBRACE ClassBodyDeclarations:d RBRACE
+	   {: RESULT = d; :}
+	|   LBRACE RBRACE
+	   {: RESULT = new BaseASTNode(NodeType.CLASS_BODY); :}
+	;
+
+ClassBodyDeclarations
+	::= ClassBodyDeclaration:d
+       {:
+           RESULT = new BaseASTNode(NodeType.CLASS_BODY);
+           RESULT.addChild(d);
+       :}
+	|   ClassBodyDeclarations:ds ClassBodyDeclaration:d
+       {:
+           RESULT = ds;
+           RESULT.addChild(d);
+       :}
+	;
+
+ClassBodyDeclaration
+	::= FieldDeclaration:d
+       {: RESULT = d; :}
+	|   MethodDeclaration:d
+       {: RESULT = d; :}
+	;
+
+FieldDeclaration
+	::= Type:t VariableDeclarators:v SEMICOLON
+       {:
+         RESULT = new BaseASTNode(NodeType.FIELD_DECLARATION);
+         RESULT.addChild(t);
+         RESULT.addChild(v);
+       :}
+	;
+
+VariableDeclarators
+	::= VariableDeclarator:d
+       {:
+           RESULT = new BaseASTNode(NodeType.VARIABLE_DECLARATIONS);
+           RESULT.addChild(d);
+       :}
+	|   VariableDeclarators:ds COMMA VariableDeclarator:d
+       {:
+           RESULT = ds;
+           ds.addChild(d);
+       :}
+	;
+
+VariableDeclarator
+	::= VariableDeclaratorId:d
+       {: RESULT = d; :}
+	|   VariableDeclaratorId:d EQUALS Expression:i
+       {:
+           RESULT = d;
+           RESULT.addChild(i);
+       :}
+	;
+
+VariableDeclaratorId
+	::= Identifier:i
+       {:
+         RESULT = new BaseASTNode(NodeType.VARIABLE_DECLARATION);
+         RESULT.addChild(i);
+       :}
+	;
+
+MethodDeclaration
+	::= MethodHeader:h MethodBody:b
+       {:
+           RESULT = h;
+           RESULT.addChild(b);
+       :}
+	;
+
+MethodHeader
+	::= Type:t MethodDeclarator:d
+       {:
+         RESULT = d;
+         RESULT.addChild(t);
+       :}
+	|   VOID MethodDeclarator:d
+       {:
+         RESULT = d;
+         RESULT.addChild(new TypeNode(NodeType.VOID, PrimitiveType.VOID));
+       :}
+	;
+
+MethodDeclarator
+	::= Identifier:i LPAREN FormalParameterList:p RPAREN
+       {:
+           RESULT = new BaseASTNode(NodeType.METHOD_DECLARATION);
+           RESULT.addChild(i);
+           RESULT.addChild(p);
+       :}
+	|   Identifier:i LPAREN RPAREN
+       {:
+           RESULT = new BaseASTNode(NodeType.METHOD_DECLARATION);
+           RESULT.addChild(i);
+           RESULT.addChild(new BaseASTNode(NodeType.PARAMETERS));
+       :}
+	;
+
+FormalParameterList
+	::= FormalParameter:p
+       {:
+           RESULT = new BaseASTNode(NodeType.PARAMETERS);
+           RESULT.addChild(p);
+       :}
+	|   FormalParameterList:pl COMMA FormalParameter:p
+       {:
+           RESULT = pl;
+           RESULT.addChild(p);
+       :}
+	;
+
+FormalParameter
+	::= Type:t VariableDeclaratorId:v
+       {:
+           RESULT = new BaseASTNode(NodeType.PARAMETER);
+           RESULT.addChild(v);
+           RESULT.addChild(t);
+       :}
+	;
+
+MethodBody
+	::= Block:b
+	   {: RESULT = b; :}
+	;
+
+Block
+	::= LBRACE BlockStatements:b RBRACE
+	   {: RESULT = b; :}
+	|   LBRACE RBRACE
+	   {: RESULT = new BaseASTNode(NodeType.BLOCK); :}
+	;
+
+BlockStatements
+	::= BlockStatement:b
+	   {:
+	       RESULT = new BaseASTNode(NodeType.BLOCK);
+	       RESULT.addChild(b);
+	   :}
+	|   BlockStatements:bs BlockStatement:b
+	   {:
+	       RESULT = bs;
+	       RESULT.addChild(b);
+	   :}
+	;
+
+BlockStatement
+	::= LocalVariableDeclarationStatement:s
+       {: RESULT = s; :}
+	|   Statement:s
+       {: RESULT = s; :}
+	;
+
+LocalVariableDeclarationStatement
+	::= LocalVariableDeclaration:s SEMICOLON
+       {: RESULT = s; :}
+	;
+
+LocalVariableDeclaration
+	::= Type:t VariableDeclarators:d
+        {:
+            RESULT = new BaseASTNode(NodeType.LOCAL_VAR_DECLARATION);
+            RESULT.addChild(t);
+            RESULT.addChild(d);
+        :}
+	;
+
+Statement
+	::= StatementWithoutTrailingSubstatement:s
+       {: RESULT = s; :}
+	|   IfThenStatement:s
+       {: RESULT = s; :}
+	|   IfThenElseStatement:s
+       {: RESULT = s; :}
+	|   WhileStatement:s
+       {: RESULT = s; :}
+	;
+
+StatementNoShortIf
+	::= StatementWithoutTrailingSubstatement:s
+       {: RESULT = s; :}
+	|   IfThenElseStatementNoShortIf:s
+       {: RESULT = s; :}
+	|   WhileStatementNoShortIf:s
+       {: RESULT = s; :}
+	;
+
+StatementWithoutTrailingSubstatement
+	::= Block:s
+       {: RESULT = s; :}
+	|   EmptyStatement:s
+       {: RESULT = s; :}
+	|   ExpressionStatement:s
+       {: RESULT = s; :}
+	|   ReturnStatement:s
+       {: RESULT = s; :}
+	;
+
+EmptyStatement
+	::= SEMICOLON
+	   {: RESULT = new BaseASTNode(NodeType.EMPTY_STATEMENT); :}
+    ;
+
+ExpressionStatement
+	::= StatementExpression:s SEMICOLON
+       {:
+           RESULT = new BaseASTNode(NodeType.EXPRESSION_STATEMENT);
+           RESULT.addChild(s);
+       :}
+	;
+
+StatementExpression
+	::= Assignment:s
+       {: RESULT = s; :}
+	|   PreIncrementExpression:s
+       {: RESULT = s; :}
+	|   PreDecrementExpression:s
+       {: RESULT = s; :}
+	|   PostIncrementExpression:s
+       {: RESULT = s; :}
+	|   PostDecrementExpression:s
+       {: RESULT = s; :}
+	|   MethodInvocation:s
+       {: RESULT = s; :}
+	;
+
+IfThenStatement
+	::= IF LPAREN Expression:e RPAREN Statement:s
+       {:
+           RESULT = new BaseASTNode(NodeType.IF_STATEMENT);
+           RESULT.addChild(e);
+           RESULT.addChild(s);
+       :}
+	;
+
+IfThenElseStatement
+	::= IF LPAREN Expression:e RPAREN StatementNoShortIf:th ELSE Statement:el
+       {:
+           RESULT = new BaseASTNode(NodeType.IF_STATEMENT);
+           RESULT.addChild(e);
+           RESULT.addChild(th);
+           RESULT.addChild(el);
+       :}
+	;
+
+IfThenElseStatementNoShortIf
+	::= IF LPAREN Expression:e RPAREN StatementNoShortIf:th ELSE StatementNoShortIf:el
+       {:
+           RESULT = new BaseASTNode(NodeType.IF_STATEMENT);
+           RESULT.addChild(e);
+           RESULT.addChild(th);
+           RESULT.addChild(el);
+       :}
+	;
+
+WhileStatement
+	::= WHILE LPAREN Expression:e RPAREN Statement:s
+       {:
+           RESULT = new BaseASTNode(NodeType.WHILE_STATEMENT);
+           RESULT.addChild(e);
+           RESULT.addChild(s);
+       :}
+	;
+
+WhileStatementNoShortIf
+	::= WHILE LPAREN Expression:e RPAREN StatementNoShortIf:s
+       {:
+           RESULT = new BaseASTNode(NodeType.WHILE_STATEMENT);
+           RESULT.addChild(e);
+           RESULT.addChild(s);
+       :}
+	;
+
+ReturnStatement
+	::= RETURN Expression:e SEMICOLON
+       {:
+           RESULT = new BaseASTNode(NodeType.RETURN_STATEMENT);
+           RESULT.addChild(e);
+       :}
+	|   RETURN SEMICOLON
+       {: RESULT = new BaseASTNode(NodeType.RETURN_STATEMENT); :}
+	;
+
+Primary
+	::= Literal:l
+       {: RESULT = l; :}
+	|   LPAREN Expression:e RPAREN
+       {: RESULT = e; :}
+	|   MethodInvocation:m
+       {: RESULT = m; :}
+	;
+
+ArgumentList
+	::= Expression:e
+       {:
+           RESULT = new BaseASTNode(NodeType.ARGUMENTS);
+           RESULT.addChild(e);
+       :}
+	|   ArgumentList:al COMMA Expression:e
+       {:
+           RESULT = al;
+           RESULT.addChild(e);
+       :}
+	;
+
+MethodInvocation
+	::= Identifier:n LPAREN ArgumentList:al RPAREN
+       {:
+           RESULT = new BaseASTNode(NodeType.METHOD_ACCESS);
+           RESULT.addChild(n);
+           RESULT.addChild(al);
+       :}
+	|   Identifier:n LPAREN RPAREN
+       {:
+           RESULT = new BaseASTNode(NodeType.METHOD_ACCESS);
+           RESULT.addChild(n);
+           RESULT.addChild(new BaseASTNode(NodeType.ARGUMENTS));
+       :}
+	;
+
+PostfixExpression
+	::= Primary:p
+	   {: RESULT = p; :}
+	|   Identifier:n
+	   {:
+	      RESULT = new BaseASTNode(NodeType.VAR_USE);
+	      RESULT.addChild(n);
+	   :}
+	|   PostIncrementExpression:e
+       {: RESULT = e; :}
+	|   PostDecrementExpression:e
+       {: RESULT = e; :}
+	;
+
+PostIncrementExpression
+	::= PostfixExpression:e OP_INC
+       {:
+           RESULT = new BaseASTNode(NodeType.POST_INCREMENT);
+           RESULT.addChild(e);
+       :}
+	;
+
+PostDecrementExpression
+	::= PostfixExpression:e OP_DEC
+       {:
+           RESULT = new BaseASTNode(NodeType.POST_DECREMENT);
+           RESULT.addChild(e);
+       :}
+	;
+
+UnaryExpression
+	::= PreIncrementExpression:e
+       {: RESULT = e; :}
+	|   PreDecrementExpression:e
+       {: RESULT = e; :}
+	|   PLUSOP UnaryExpression:e
+       {:
+           RESULT = new BaseASTNode(NodeType.UNARY_PLUS);
+           RESULT.addChild(e);
+       :}
+	|   MINUSOP UnaryExpression:e
+       {:
+           RESULT = new BaseASTNode(NodeType.UNARY_MINUS);
+           RESULT.addChild(e);
+       :}
+	|   UnaryExpressionNotPlusMinus:e
+       {: RESULT = e; :}
+	;
+
+PreIncrementExpression
+	::= OP_INC UnaryExpression:e
+       {:
+           RESULT = new BaseASTNode(NodeType.PRE_INCREMENT);
+           RESULT.addChild(e);
+       :}
+	;
+
+PreDecrementExpression
+	::= OP_DEC UnaryExpression:e
+       {:
+           RESULT = new BaseASTNode(NodeType.PRE_DECREMENT);
+           RESULT.addChild(e);
+       :}
+	;
+
+UnaryExpressionNotPlusMinus
+	::= PostfixExpression:e
+       {: RESULT = e; :}
+	|   BANG UnaryExpression:e
+       {:
+           RESULT = new BaseASTNode(NodeType.BOOLEAN_NOT);
+           RESULT.addChild(e);
+       :}
+	|   CastExpression:e
+       {: RESULT = e; :}
+	;
+
+CastExpression
+	::= LPAREN PrimitiveType:t RPAREN UnaryExpression:e
+       {:
+           RESULT = new BaseASTNode(NodeType.CAST);
+           RESULT.addChild(t);
+           RESULT.addChild(e);
+       :}
+	|   LPAREN Expression:t RPAREN UnaryExpressionNotPlusMinus:e
+       {:
+           RESULT = new BaseASTNode(NodeType.CAST);
+           RESULT.addChild(t);
+           RESULT.addChild(e);
+       :}
+	;
+
+MultiplicativeExpression
+	::= UnaryExpression:e
+	   {: RESULT = e; :}
+	|   MultiplicativeExpression:le ASTERISK UnaryExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.MULTIPLICATION);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	|   MultiplicativeExpression:le SLASH    UnaryExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.DIVISION);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	;
+
+AdditiveExpression
+	::= MultiplicativeExpression:e
+       {: RESULT = e; :}
+	|   AdditiveExpression:le PLUSOP  MultiplicativeExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.ADDITION);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	|   AdditiveExpression:le MINUSOP MultiplicativeExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.SUBTRACTION);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	;
+
+
+RelationalExpression
+	::= AdditiveExpression:e
+	   {: RESULT = e; :}
+	|   RelationalExpression:le OP_LT AdditiveExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.LESS_THAN);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	|   RelationalExpression:le OP_GT AdditiveExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.GREATER_THAN);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	|   RelationalExpression:le OP_LE AdditiveExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.LESS_THAN_OR_EQUAL);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	|   RelationalExpression:le OP_GE AdditiveExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.GREATER_THAN_OR_EQUAL);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	;
+
+EqualityExpression
+	::= RelationalExpression:e
+	   {: RESULT = e; :}
+	|   EqualityExpression:le OP_EQ RelationalExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.EQUAL);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	|   EqualityExpression:le OP_NE RelationalExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.NOT_EQUAL);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	;
+
+ConditionalAndExpression
+	::= EqualityExpression:e
+       {: RESULT = e; :}
+	|   ConditionalAndExpression:le OP_AND EqualityExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.BOOLEAN_AND);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	;
+
+ConditionalOrExpression
+	::= ConditionalAndExpression:e
+       {: RESULT = e; :}
+	|   ConditionalOrExpression:le OP_OR ConditionalAndExpression:re
+       {:
+           RESULT = new BaseASTNode(NodeType.BOOLEAN_OR);
+           RESULT.addChild(le);
+           RESULT.addChild(re);
+       :}
+	;
+
+AssignmentExpression
+	::= ConditionalOrExpression:e
+       {: RESULT = e; :}
+	|   Assignment:e
+       {: RESULT = e; :}
+	;
+
+Assignment
+	::= Identifier:ls AssignmentOperator:op AssignmentExpression:rs
+	   {:
+	       RESULT = op;
+	       RESULT.addChild(ls);
+	       RESULT.addChild(rs);
+	   :}
+	;
+
+AssignmentOperator
+	::= EQUALS
+	   {: RESULT = new BaseASTNode(NodeType.ASSIGN); :}
+	;
+
+Expression
+	::= AssignmentExpression:e
+       {: RESULT = e; :}
+	;
