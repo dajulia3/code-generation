@@ -19,6 +19,6 @@ and to run each individual test, comparing the reference output to my compiler's
 
 In that way, I was able to test small chunks of decaffeinated java code, corresponding to single Nodes in the AST,
 and make sure that for each Node, my compiler's output matched the test compiler's output EXACTLY.
-I was using eclipse, so eclipse shows you a nice diff when you assert that an input should match some string (the reference compiler's output) but failed to do so. By using the diffs, I was able to develop my CORRECT solution in a fraction of the time that the other students took to develop mostly incorrect solutions.
+I was using eclipse, so eclipse shows you a nice diff when you use junit to assert that an input should match some string (the reference compiler's output) but failed to do so. By using the diffs, I was able to develop my CORRECT solution in a fraction of the time that the other students took to develop mostly incorrect solutions.
 
 Why did I write this rant? Because people allllwwwayyysss doubt TDD when they see the time that it takes up-front to write an AWESOME test harness... but when you have a great testing framework in place, it speeds up your development like mad (and you can be a lot more confident in your code's correctness).
