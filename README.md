@@ -1,7 +1,7 @@
 code-generation
 ===============
 
-Code generation excercise. Generates Java Byte code for the decaffeinated java language. Scanner (lexical analyzer) was generated using JFLEX. Parser/Grammar was written using CUP (which was used to generate an AST in Java). I wrote a VERY complete test harness for this project using JUnit and used a TDD approach. I didn't use mock objects or anything to stub out dependencies in the tests, but they were all still EXTREMELY helpful. Apparently this final project was one of the few that actually didn't crash, and one of even fewer that generated correct output.
+Code generation excercise. Generates Java Byte code for the decaffeinated java language. The scanner (lexical analyzer) was generated using JFLEX. The parser/grammar was written using CUP (which was used to generate an AST in Java). Code for those parts of the project are in previous excercises. I wrote a VERY complete test harness for this project using JUnit and used a TDD approach. I didn't use mock objects or anything to stub out dependencies in the tests, but they were all still EXTREMELY helpful. Apparently this final project was one of the few that actually didn't crash, and one of even fewer that generated correct output.
 
 Note: this repo contains the full eclipse project. The project used to be under SVN version control, but once again I decided not to use git-svn, opting instead to just copy the files over.
 
