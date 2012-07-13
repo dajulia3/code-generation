@@ -3,9 +3,10 @@ code-generation
 
 Code generation excercise. Generates Java Byte code for the decaffeinated java language. Scanner (lexical analyzer) was generated using JFLEX. Parser/Grammar was written using CUP (which was used to generate an AST in Java). I wrote a VERY complete test harness for this project using JUnit and used a TDD approach. I didn't use mock objects or anything to stub out dependencies in the tests, but they were all still EXTREMELY helpful. Apparently this final project was one of the few that actually didn't crash, and one of even fewer that generated correct output.
 
-Some Notes on the AWESOME tests and why they're really quite clever:
-I actually used JUnit both to test and log the output of tests into test/testASTLog.txt.
-I used a customized TestWatchman to assist with both of these tasks.
+The Awesome Tests: why they're really quite clever
+------------------------------------
+I actually used JUnit both to test and log the output of the AST's for each of the into test/testASTLog.txt.
+I used a customized TestWatchman to assist with this taksk. The custom watcher put a header describing what test method the AST logged corresponds to (since all Tests were independent programs).
 
 The real cleverness lies in the helper methods. 
 First, I create a temporary test file from the decaffeinated java test input code in the JUnit Tests using a helper method.Then I generated reference output using the reference compiler (redirecting its output string from stdout to my input stream, and captured that input in a String. 
